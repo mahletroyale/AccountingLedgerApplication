@@ -61,7 +61,7 @@ public class TransactionManager {
                     continue;
                 }
 
-                //
+
                 try {
                     LocalDate date = LocalDate.parse(transactionParts[0]);
                     LocalTime time = LocalTime.parse(transactionParts[1]);
