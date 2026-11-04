@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class TransactionManager {
+public class TransactionRecords {
 
     private static final String FILE_NAME = "transactions.csv";
 

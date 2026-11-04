@@ -91,7 +91,7 @@ public class ReportsMenu {
                 new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
-                TransactionManager.getAllTransactions();
+                TransactionRecords.getAllTransactions();
 
         for (Transaction transaction : allTransactions) {
 
@@ -108,7 +108,7 @@ public class ReportsMenu {
                 "\nTransactions from " + startDate + " to " + endDate
         );
 
-        TransactionManager.displayTransactions(matchingTransactions);
+        TransactionRecords.displayTransactions(matchingTransactions);
     }
 
     // Search for transactions by vendor or customer
@@ -121,7 +121,7 @@ public class ReportsMenu {
                 new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
-                TransactionManager.getAllTransactions();
+                TransactionRecords.getAllTransactions();
 
         for (Transaction transaction : allTransactions) {
 
@@ -132,7 +132,7 @@ public class ReportsMenu {
             }
         }
 
-        TransactionManager.displayTransactions(matchingTransactions);
+        TransactionRecords.displayTransactions(matchingTransactions);
     }
 
     // Bonus: Search using different transaction properties
@@ -202,7 +202,7 @@ public class ReportsMenu {
                     new ArrayList<>();
 
             ArrayList<Transaction> allTransactions =
-                    TransactionManager.getAllTransactions();
+                    TransactionRecords.getAllTransactions();
 
             // Check each transaction against the search filters
             for (Transaction transaction : allTransactions) {
@@ -252,7 +252,7 @@ public class ReportsMenu {
             }
 
 
-            TransactionManager.displayTransactions(matchingTransactions);
+            TransactionRecords.displayTransactions(matchingTransactions);
 
         } catch (RuntimeException e) {
 

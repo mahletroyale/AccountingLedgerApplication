@@ -24,8 +24,8 @@ public class LedgerMenu {
             switch (userChoice) {
 
                 case "A":
-                    TransactionManager.displayTransactions(
-                            TransactionManager.getAllTransactions()
+                    TransactionRecords.displayTransactions(
+                            TransactionRecords.getAllTransactions()
                     );
                     break;
 
@@ -63,7 +63,7 @@ public class LedgerMenu {
                 new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
-                TransactionManager.getAllTransactions();
+                TransactionRecords.getAllTransactions();
 
         for (Transaction transaction : allTransactions) {
 
@@ -76,7 +76,7 @@ public class LedgerMenu {
             }
         }
 
-        TransactionManager.displayTransactions(matchingTransactions);
+        TransactionRecords.displayTransactions(matchingTransactions);
     }
 }
 

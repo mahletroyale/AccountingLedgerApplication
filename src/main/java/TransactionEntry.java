@@ -66,7 +66,7 @@ public class TransactionEntry {
 
         // Saves the transaction
         boolean wasSaved =
-                TransactionManager.saveTransaction(newTransaction);
+                TransactionRecords.saveTransaction(newTransaction);
 
         if (wasSaved) {
 
