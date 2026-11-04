@@ -150,7 +150,7 @@ public class ReportsMenu {
         System.out.print("Description: ");
         String descriptionInput = scanner.nextLine().trim();
 
-        System.out.print("Vendor: ");
+        System.out.print("Enter customer or vendor name: ");
         String vendorInput = scanner.nextLine().trim();
 
         System.out.print("Amount (negative for expenses): ");
