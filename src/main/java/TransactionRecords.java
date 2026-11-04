@@ -1,123 +1,211 @@
 
 
 
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class TransactionRecords {
 
     private static final String FILE_NAME = "transactions.csv";
 
-    // Saves a transaction to the CSV file
+    // Save a transaction to the CSV file
     public static boolean saveTransaction(Transaction transaction) {
 
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME, true))) {
+        try {
 
-            writer.write(transaction.toCsv());
-            writer.newLine();
+            FileWriter transactionFileWriter =
+                    new FileWriter(FILE_NAME, true);
+
+            BufferedWriter transactionWriter =
+                    new BufferedWriter(transactionFileWriter);
+
+            transactionWriter.write(transaction.toCsv());
+            transactionWriter.newLine();
+            transactionWriter.close();
 
             System.out.println("Transaction saved successfully!");
             return true;
 
-        } catch (IOException e) {
+        } catch (IOException error) {
 
             System.out.println(
-                    "Error saving transaction: " + e.getMessage()
+                    "Error saving transaction: " + error.getMessage()
             );
             return false;
         }
     }
 
-    // Reads all transactions from the CSV file
+    // Read transactions from the CSV file
     public static ArrayList<Transaction> getAllTransactions() {
 
-        ArrayList<Transaction> allTransactions = new ArrayList<>();
+        ArrayList<Transaction> allTransactions =
+                new ArrayList<Transaction>();
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(FILE_NAME))) {
+        try {
 
-            String line;
-            while ((line = reader.readLine()) != null) {
+            FileReader transactionFileReader =
+                    new FileReader(FILE_NAME);
 
-                if (line.isBlank()) {
+            BufferedReader transactionReader =
+                    new BufferedReader(transactionFileReader);
+
+            String transactionLine;
+
+            while ((transactionLine = transactionReader.readLine()) != null) {
+
+                // Skips any empty lines
+                if (transactionLine.trim().isEmpty()) {
                     continue;
                 }
 
-                // Separating the five CSV transaction parts
-                String[] transactionParts = line.split("\\|", -1);
+                // Separate the CSV line into five transaction details
+                String[] transactionDetails =
+                        transactionLine.split("\\|", -1);
 
-                if (transactionParts.length != 5) {
-                    System.out.println("Skipping invalid record: " + line);
+                if (transactionDetails.length != 5) {
+                    System.out.println(
+                            "Skipping invalid record: " + transactionLine
+                    );
                     continue;
                 }
 
-                // Skips the CSV header row
-                if (transactionParts[0].equalsIgnoreCase("date") &&
-                        transactionParts[1].equalsIgnoreCase("time")) {
+                // Skips the first row in CSV
+                if (transactionDetails[0].trim().equalsIgnoreCase("date") &&
+                        transactionDetails[1].trim().equalsIgnoreCase("time")) {
                     continue;
                 }
-
 
                 try {
-                    LocalDate date = LocalDate.parse(transactionParts[0]);
-                    LocalTime time = LocalTime.parse(transactionParts[1]);
 
-                    String description = transactionParts[2];
-                    String vendor = transactionParts[3];
-                    double amount = Double.parseDouble(transactionParts[4]);
+                    // Convert CSV text into the correct data types
+                    LocalDate transactionDate =
+                            LocalDate.parse(transactionDetails[0].trim());
 
-                    if (!Double.isFinite(amount)) {
+                    LocalTime transactionTime =
+                            LocalTime.parse(transactionDetails[1].trim());
+
+                    String transactionDescription =
+                            transactionDetails[2].trim();
+
+                    String transactionVendor =
+                            transactionDetails[3].trim();
+
+                    double transactionAmount =
+                            Double.parseDouble(transactionDetails[4].trim());
+
+                    // Check for invalid transaction information
+                    if (transactionDescription.isEmpty() ||
+                            transactionVendor.isEmpty() ||
+                            transactionAmount > 999999999.99 ||
+                            transactionAmount < -999999999.99 ||
+                            transactionAmount != transactionAmount) {
+
+                        System.out.println(
+                                "Skipping invalid record: " + transactionLine
+                        );
                         continue;
                     }
 
-                    Transaction transaction = new Transaction(
-                            date,
-                            time,
-                            description,
-                            vendor,
-                            amount
+                    // Create a Transaction object
+                    Transaction savedTransaction = new Transaction(
+                            transactionDate,
+                            transactionTime,
+                            transactionDescription,
+                            transactionVendor,
+                            transactionAmount
                     );
 
-                    allTransactions.add(transaction);
+                    // Add the transaction to the ArrayList
+                    allTransactions.add(savedTransaction);
 
-                } catch (RuntimeException e) {
-                    System.out.println("Skipping invalid record: " + line);
+                } catch (Exception error) {
+
+                    System.out.println(
+                            "Skipping invalid record: " + transactionLine
+                    );
                 }
             }
 
-        } catch (FileNotFoundException e) {
+            transactionReader.close();
+
+        } catch (FileNotFoundException error) {
+
             System.out.println("Transaction file not found.");
 
-        } catch (IOException e) {
+        } catch (IOException error) {
+
             System.out.println(
-                    "Error reading transactions: " + e.getMessage()
+                    "Error reading transactions: " + error.getMessage()
             );
         }
 
         // Sort transactions from newest to oldest
-        allTransactions.sort(
-                Comparator.comparing(Transaction::getDate)
-                        .thenComparing(Transaction::getTime)
-                        .reversed()
-        );
+        for (int currentIndex = 0;
+             currentIndex < allTransactions.size();
+             currentIndex++) {
+
+            for (int comparisonIndex = currentIndex + 1;
+                 comparisonIndex < allTransactions.size();
+                 comparisonIndex++) {
+
+                Transaction currentTransaction =
+                        allTransactions.get(currentIndex);
+
+                Transaction comparisonTransaction =
+                        allTransactions.get(comparisonIndex);
+
+                // Convert dates into numbers for comparison
+                int currentTransactionDate =
+                        currentTransaction.getDate().getYear() * 10000 +
+                                currentTransaction.getDate().getMonthValue() * 100 +
+                                currentTransaction.getDate().getDayOfMonth();
+
+                int comparisonTransactionDate =
+                        comparisonTransaction.getDate().getYear() * 10000 +
+                                comparisonTransaction.getDate().getMonthValue() * 100 +
+                                comparisonTransaction.getDate().getDayOfMonth();
+
+                // Convert times into numbers for comparison
+                int currentTransactionTime =
+                        currentTransaction.getTime().getHour() * 10000 +
+                                currentTransaction.getTime().getMinute() * 100 +
+                                currentTransaction.getTime().getSecond();
+
+                int comparisonTransactionTime =
+                        comparisonTransaction.getTime().getHour() * 10000 +
+                                comparisonTransaction.getTime().getMinute() * 100 +
+                                comparisonTransaction.getTime().getSecond();
+
+                // Swap positions when the comparison transaction is newer
+                if (comparisonTransactionDate > currentTransactionDate ||
+                        (comparisonTransactionDate == currentTransactionDate &&
+                                comparisonTransactionTime > currentTransactionTime)) {
+
+                    allTransactions.set(
+                            currentIndex, comparisonTransaction
+                    );
+
+                    allTransactions.set(
+                            comparisonIndex, currentTransaction
+                    );
+                }
+            }
+        }
 
         return allTransactions;
     }
 
-
+    // Display transactions in a formatted table
     public static void displayTransactions(
-            ArrayList<Transaction> transactions) {
+            ArrayList<Transaction> transactionsToDisplay) {
 
-        if (transactions.isEmpty()) {
+        if (transactionsToDisplay.isEmpty()) {
             System.out.println("\nNo transactions found.");
             return;
         }
-
-        System.out.println("\n" + "=".repeat(86));
 
         System.out.printf(
                 "%-12s %-10s %-25s %-20s %11s%n",
@@ -128,16 +216,10 @@ public class TransactionRecords {
                 "AMOUNT"
         );
 
-        System.out.println("-".repeat(86));
 
         // Display each transaction
-        for (Transaction transaction : transactions) {
-            transaction.displayTransaction();
+        for (Transaction currentTransaction : transactionsToDisplay) {
+            currentTransaction.displayTransaction();
         }
-
-        System.out.println("=".repeat(86));
     }
-
-
 }
-

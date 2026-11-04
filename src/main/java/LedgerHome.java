@@ -1,26 +1,26 @@
 
 
+
 import java.util.Scanner;
 
-public class Ledger {
+public class LedgerHome {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("====================================");
-        System.out.println("          MAHISHA MADE IT  \uD83D\uDC69\uD83C\uDFFD\u200D\uD83C\uDF73         ");
+        System.out.println("          MAHISHA MADE IT  👩🏽‍🍳         ");
         System.out.println("       You Crave It. I Make It.    ");
         System.out.println("====================================");
 
-        // Check the password before opening the application
+
         if (!Login.checkPassword(scanner)) {
             scanner.close();
             return;
         }
 
         boolean isAppRunning = true;
-
         while (isAppRunning) {
 
             System.out.println("\n Would you like to...");

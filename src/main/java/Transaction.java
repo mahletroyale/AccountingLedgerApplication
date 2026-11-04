@@ -1,7 +1,7 @@
 
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
 
@@ -11,11 +11,11 @@ public class Transaction {
     private String vendor;
     private double amount;
 
-
+    // Constructor
     public Transaction(LocalDate date, LocalTime time,
-                       String description, String vendor, double amount) {
+                       String description, String vendor,
+                       double amount) {
 
-        // Constructors
         this.date = date;
         this.time = time;
         this.description = description;
@@ -23,6 +23,7 @@ public class Transaction {
         this.amount = amount;
     }
 
+    // Getters
     public LocalDate getDate() {
         return date;
     }
@@ -43,23 +44,32 @@ public class Transaction {
         return amount;
     }
 
-    // Converts transaction into a CSV line
+    // Takes the transaction and turns it into the CSV format
     public String toCsv() {
-        return date + "|" + time.withNano(0) + "|" +
-                description + "|" + vendor + "|" + amount;
+
+        DateTimeFormatter timeFormat =
+                DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        return date + "|" +
+                time.format(timeFormat) + "|" +
+                description + "|" +
+                vendor + "|" +
+                amount;
     }
 
 
     public void displayTransaction() {
 
+        DateTimeFormatter timeFormat =
+                DateTimeFormatter.ofPattern("HH:mm:ss");
+
         System.out.printf(
                 "%-12s %-10s %-25.25s %-20.20s $%10.2f%n",
                 date,
-                time.withNano(0),
+                time.format(timeFormat),
                 description,
                 vendor,
                 amount
         );
     }
 }
-
