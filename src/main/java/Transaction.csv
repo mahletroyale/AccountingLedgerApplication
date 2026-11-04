@@ -1,8 +1,9 @@
 date|time|description|vendor|amount
-2026-10-01|10:15:00|Chicken Meal Prep|Customer A|85.00
-2026-10-03|12:30:00|Fresh Ingredients|Costco|-120.50
-2026-10-07|14:00:00|Birthday Catering|Customer B|450.00
-2026-10-10|09:45:00|Takeout Containers|Amazon|-45.75
-2026-10-20|11:00:00|Spices and Seasonings|Restaurant Depot|-65.00
-2026-09-12|13:15:00|Weekend Meal Prep|Customer D|300.00
-2025-12-15|15:30:00|Holiday Catering|Customer E|850.00
+2026-10-01|09:15:00|Honey Garlic Chicken|Customer A|85.00
+2026-10-03|10:30:00|Fresh Produce|Costco|-48.50
+2026-10-05|12:00:00|Birthday Catering|Customer B|350.00
+2026-10-08|14:45:00|Pasta Dinner Order|Customer C|120.00
+2026-10-10|11:20:00|Cooking Oil and Spices|Restaurant Depot|-65.00
+2026-10-12|15:30:00|Takeout Containers|Amazon|-42.75
+2025-12-15|16:30:00|Holiday Catering|Customer F|650.00
+

@@ -23,7 +23,7 @@ public class Ledger {
 
         while (isAppRunning) {
 
-            System.out.println("\n========== HOME ==========");
+            System.out.println("\n Would you like to...1");
             System.out.println("D) Add Deposit (Food Sale)");
             System.out.println("P) Make Payment (Kitchen Expense)");
             System.out.println("L) View Ledger");

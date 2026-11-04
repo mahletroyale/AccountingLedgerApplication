@@ -109,5 +109,35 @@ public class TransactionManager {
     }
 
 
+    public static void displayTransactions(
+            ArrayList<Transaction> transactions) {
+
+        if (transactions.isEmpty()) {
+            System.out.println("\nNo transactions found.");
+            return;
+        }
+
+        System.out.println("\n" + "=".repeat(86));
+
+        System.out.printf(
+                "%-12s %-10s %-25s %-20s %11s%n",
+                "DATE",
+                "TIME",
+                "DESCRIPTION",
+                "VENDOR",
+                "AMOUNT"
+        );
+
+        System.out.println("-".repeat(86));
+
+        // Display each transaction
+        for (Transaction transaction : transactions) {
+            transaction.displayTransaction();
+        }
+
+        System.out.println("=".repeat(86));
+    }
+
+
 }
 

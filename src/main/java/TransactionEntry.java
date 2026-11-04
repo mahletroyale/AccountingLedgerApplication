@@ -16,7 +16,7 @@ public class TransactionEntry {
         System.out.print("Description: ");
         String description = scanner.nextLine().trim();
 
-        System.out.print("Customer or vendor: ");
+        System.out.print("Name of customer or vendor: ");
         String vendor = scanner.nextLine().trim();
 
         // Makes sure the user does not enter any special characters

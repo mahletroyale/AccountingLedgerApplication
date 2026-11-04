@@ -9,7 +9,7 @@ public class Login {
 
         String accessCode = "1234*";
 
-        System.out.println("\n OWNER LOGIN \uD83D\uDC69\uD83C\uDFFD\u200D\uD83C\uDF73");
+        System.out.println("\n ‼\uFE0F OWNER LOGIN ‼\uFE0F");
         System.out.print("Enter password: ");
         String enteredPassword = scanner.nextLine();
 
