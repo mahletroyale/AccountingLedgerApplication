@@ -1,4 +1,4 @@
-date|time|description|vendor|amount
+date|time|description|customer|vendor|amount
 2026-10-01|09:15:00|Honey Garlic Chicken|Customer A|85.00
 2026-10-03|10:30:00|Fresh Produce|Costco|-48.50
 2026-10-05|12:00:00|Birthday Catering|Customer B|350.00
@@ -7,3 +7,7 @@ date|time|description|vendor|amount
 2026-10-12|15:30:00|Takeout Containers|Amazon|-42.75
 2025-12-15|16:30:00|Holiday Catering|Customer F|650.00
 
+2026-11-05|13:39:39|Lasagna|Nebiyu||50.0
+2026-11-05|13:55:51|TEST|N/A|TESTING|-10.0
+2026-11-05|14:16:23|Cupcake|Maaike|N/A|30.0
+2026-11-05|14:16:40|Cutlery|N/A|Costco|-40.0

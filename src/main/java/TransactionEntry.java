@@ -1,3 +1,4 @@
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -17,11 +18,26 @@ public class TransactionEntry {
         System.out.print("Description: ");
         String description = scanner.nextLine().trim();
 
-        System.out.print("Customer or vendor: ");
-        String vendor = scanner.nextLine().trim();
+        // Default values
+        String customer = "N/A";
+        String vendor = "N/A";
 
-        // Validate the description and vendor
-        if (!isValidText(description) || !isValidText(vendor)) {
+        // Ask for the correct name based on the transaction type
+        if (isDeposit) {
+
+            System.out.print("Customer name: ");
+            customer = scanner.nextLine().trim();
+
+        } else {
+
+            System.out.print("Vendor name: ");
+            vendor = scanner.nextLine().trim();
+        }
+
+        // Validate the description and the required name
+        if (!isValidText(description) ||
+                (isDeposit && !isValidText(customer)) ||
+                (!isDeposit && !isValidText(vendor))) {
 
             System.out.println(
                     "Please use only letters, numbers, and spaces."
@@ -32,7 +48,7 @@ public class TransactionEntry {
         System.out.print("Amount: $");
         String amountInput = scanner.nextLine().trim();
 
-        // Checks that the amount contains only valid characters
+        // Validate the amount
         if (!isValidAmount(amountInput)) {
 
             System.out.println(
@@ -45,7 +61,7 @@ public class TransactionEntry {
 
         try {
 
-            // Convert the amount from a String into a double
+            // Convert the amount from String into double
             transactionAmount = Double.parseDouble(amountInput);
 
         } catch (NumberFormatException error) {
@@ -54,31 +70,33 @@ public class TransactionEntry {
             return;
         }
 
-        // Checks that the amount is within the allowed range
-        if (transactionAmount <= 0 || transactionAmount > 10000.00) {
+        // Checks the business transaction limit of $5000
+        if (transactionAmount <= 0 ||
+                transactionAmount > 5000.00) {
 
             System.out.println(
-                    "Amount must be greater than zero and under 10,000."
+                    "Amount must be greater than $0 and cannot exceed $5,000."
             );
             return;
         }
 
-        // Convert kitchen expenses into negative amounts
+        // Converts kitchen expenses into negative amounts since it is money leaving the business
         if (!isDeposit) {
             transactionAmount = -transactionAmount;
         }
 
-        // Create a Transaction object using today's date and time
+        // Create a new Transaction object
         Transaction newTransaction = new Transaction(
                 LocalDate.now(),
                 LocalTime.now(),
                 description,
+                customer,
                 vendor,
                 transactionAmount
         );
 
-        boolean wasSaved =
-                TransactionRecords.saveTransaction(newTransaction);
+        // Save the transaction
+        boolean wasSaved = TransactionRecords.saveTransaction(newTransaction);
 
         if (wasSaved) {
 
@@ -90,7 +108,7 @@ public class TransactionEntry {
         }
     }
 
-    // Check that the user enters only letters, numbers, and spaces
+    // Checks for letters, numbers, and spaces only
     public static boolean isValidText(String userInput) {
 
         if (userInput.isEmpty()) {
@@ -101,21 +119,15 @@ public class TransactionEntry {
 
             char currentCharacter = userInput.charAt(characterIndex);
 
-            boolean isLowercaseLetter =
-                    currentCharacter >= 'a' && currentCharacter <= 'z';
+            boolean isLowercaseLetter = currentCharacter >= 'a' && currentCharacter <= 'z';
 
-            boolean isUppercaseLetter =
-                    currentCharacter >= 'A' && currentCharacter <= 'Z';
+            boolean isUppercaseLetter = currentCharacter >= 'A' && currentCharacter <= 'Z';
 
-            boolean isNumber =
-                    currentCharacter >= '0' && currentCharacter <= '9';
+            boolean isNumber = currentCharacter >= '0' && currentCharacter <= '9';
 
             boolean isSpace = currentCharacter == ' ';
 
-            // Rejects any special characters
-            if (!isLowercaseLetter && !isUppercaseLetter &&
-                    !isNumber && !isSpace) {
-
+            if (!isLowercaseLetter && !isUppercaseLetter && !isNumber && !isSpace) {
                 return false;
             }
         }
@@ -123,7 +135,7 @@ public class TransactionEntry {
         return true;
     }
 
-    // Checks that the amount contains digits and at most one decimal point
+    // Checks that the amount has digits and at most one decimal point
     public static boolean isValidAmount(String amountInput) {
 
         if (amountInput.isEmpty()) {
@@ -133,17 +145,16 @@ public class TransactionEntry {
         int decimalPointCount = 0;
         int digitCount = 0;
 
-        for (int characterIndex = 0; characterIndex < amountInput.length(); characterIndex++) {
+        for (int characterIndex = 0;
+             characterIndex < amountInput.length();
+             characterIndex++) {
 
             char currentCharacter = amountInput.charAt(characterIndex);
 
             if (currentCharacter == '.') {
-
                 decimalPointCount++;
 
-            } else if (currentCharacter >= '0' &&
-                    currentCharacter <= '9') {
-
+            } else if (currentCharacter >= '0' && currentCharacter <= '9') {
                 digitCount++;
 
             } else {

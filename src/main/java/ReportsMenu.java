@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReportsMenu {
-    
+
+    // Display the Reports Menu
     public static void open(Scanner scanner) {
+
         boolean isReportsOpen = true;
+
         while (isReportsOpen) {
 
             System.out.println("\n========== FINANCIAL REPORTS ==========");
@@ -23,41 +26,38 @@ public class ReportsMenu {
 
             LocalDate currentDate = LocalDate.now();
 
-            int currentYear = currentDate.getYear();
-            int currentMonth = currentDate.getMonthValue();
-
             switch (reportChoice) {
 
                 case "1":
-                    displayMonthlyReport(
-                            currentYear,
-                            currentMonth,
-                            true
+                    // Current month through today
+                    displayDateReport(
+                            currentDate.withDayOfMonth(1),
+                            currentDate
                     );
                     break;
 
                 case "2":
-                    int previousMonthNumber = currentMonth - 1;
-                    int previousMonthYear = currentYear;
+                    // First and last day of the previous month
+                    LocalDate previousMonth = currentDate.minusMonths(1);
 
-                    if (previousMonthNumber == 0) {
-                        previousMonthNumber = 12;
-                        previousMonthYear--;
-                    }
-
-                    displayMonthlyReport(
-                            previousMonthYear,
-                            previousMonthNumber,
-                            false
+                    displayDateReport(
+                            previousMonth.withDayOfMonth(1),
+                            previousMonth.withDayOfMonth(
+                                    previousMonth.lengthOfMonth()
+                            )
                     );
                     break;
 
                 case "3":
-                    displayYearlyReport(currentYear, true);
+                    // Start of the current year through today
+                    displayDateReport(LocalDate.of(currentDate.getYear(), 1, 1), currentDate);
                     break;
 
                 case "4":
-                    displayYearlyReport(currentYear - 1, false);
+                    // Entire previous year
+                    displayDateReport(LocalDate.of(currentDate.getYear() - 1, 1, 1),
+                            LocalDate.of(currentDate.getYear() - 1, 12, 31)
+                    );
                     break;
 
                 case "5":
@@ -78,82 +78,45 @@ public class ReportsMenu {
         }
     }
 
-    // Display transactions for a selected month
-    public static void displayMonthlyReport(
-            int reportYear, int reportMonth, boolean isMonthToDate) {
+    // Display transactions within a selected date range
+    public static void displayDateReport(
+            LocalDate startDate, LocalDate endDate) {
 
         ArrayList<Transaction> matchingTransactions =
-                new ArrayList<Transaction>();
+                new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
                 TransactionRecords.getAllTransactions();
-
-        LocalDate currentDate = LocalDate.now();
 
         for (Transaction currentTransaction : allTransactions) {
 
             LocalDate transactionDate = currentTransaction.getDate();
 
-            if (transactionDate.getYear() == reportYear &&
-                    transactionDate.getMonthValue() == reportMonth) {
-
-                if (!isMonthToDate ||
-                        convertDateToNumber(transactionDate) <=
-                                convertDateToNumber(currentDate)) {
-
-                    matchingTransactions.add(currentTransaction);
-                }
+            // Check whether the date is within the selected range
+            if (!transactionDate.isBefore(startDate) && !transactionDate.isAfter(endDate)) {
+                matchingTransactions.add(currentTransaction);
             }
         }
 
-        System.out.println(
-                "\nTransactions for " + reportMonth + "/" + reportYear
-        );
+        System.out.println("\nTransactions from " + startDate + " to " + endDate);
 
         TransactionRecords.displayTransactions(matchingTransactions);
     }
 
-    // Display transactions for a selected year
-    public static void displayYearlyReport(
-            int reportYear, boolean isYearToDate) {
-
-        ArrayList<Transaction> matchingTransactions =
-                new ArrayList<Transaction>();
-
-        ArrayList<Transaction> allTransactions =
-                TransactionRecords.getAllTransactions();
-
-        LocalDate currentDate = LocalDate.now();
-
-        for (Transaction currentTransaction : allTransactions) {
-
-            LocalDate transactionDate = currentTransaction.getDate();
-
-            if (transactionDate.getYear() == reportYear) {
-
-                if (!isYearToDate ||
-                        convertDateToNumber(transactionDate) <=
-                                convertDateToNumber(currentDate)) {
-
-                    matchingTransactions.add(currentTransaction);
-                }
-            }
-        }
-
-        System.out.println("\nTransactions for " + reportYear);
-
-        TransactionRecords.displayTransactions(matchingTransactions);
-    }
-
-    // Search transactions by customer or vendor
+    // Search transactions by vendor
     public static void searchByVendor(Scanner scanner) {
 
-        System.out.print("Enter customer or vendor name: ");
+        System.out.print("Enter vendor name: ");
         String vendorToSearch =
                 scanner.nextLine().trim().toLowerCase();
 
+        if (vendorToSearch.isEmpty()) {
+            System.out.println("Please enter a vendor name.");
+            return;
+        }
+
         ArrayList<Transaction> matchingTransactions =
-                new ArrayList<Transaction>();
+                new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
                 TransactionRecords.getAllTransactions();
@@ -164,13 +127,12 @@ public class ReportsMenu {
                     currentTransaction.getVendor().toLowerCase();
 
             if (transactionVendor.indexOf(vendorToSearch) != -1) {
-
                 matchingTransactions.add(currentTransaction);
             }
         }
-
         TransactionRecords.displayTransactions(matchingTransactions);
     }
+
 
     public static void customSearch(Scanner scanner) {
 
@@ -182,9 +144,12 @@ public class ReportsMenu {
 
         System.out.print("End Date (yyyy-MM-dd): ");
         String endDateInput = scanner.nextLine().trim();
-
         System.out.print("Description: ");
         String descriptionToSearch =
+                scanner.nextLine().trim().toLowerCase();
+
+        System.out.print("Customer: ");
+        String customerToSearch =
                 scanner.nextLine().trim().toLowerCase();
 
         System.out.print("Vendor: ");
@@ -196,31 +161,28 @@ public class ReportsMenu {
 
         LocalDate startDate = null;
         LocalDate endDate = null;
-
         double amountToSearch = 0;
-        boolean searchByAmount = false;
 
         try {
 
-            // Convert the start date
+            // Convert the start date if entered
             if (!startDateInput.isEmpty()) {
                 startDate = LocalDate.parse(startDateInput);
             }
 
-            // Convert the end date
+            // Convert the end date if entered
             if (!endDateInput.isEmpty()) {
                 endDate = LocalDate.parse(endDateInput);
             }
 
-            // Convert the amount
+            // Convert the amount if entered
             if (!amountInput.isEmpty()) {
 
                 amountToSearch = Double.parseDouble(amountInput);
-                searchByAmount = true;
 
-                if (amountToSearch > 10000.00 ||
-                        amountToSearch < -10000.00 ||
-                        amountToSearch != amountToSearch) {
+                if (!Double.isFinite(amountToSearch) ||
+                        amountToSearch > 5000.00 ||
+                        amountToSearch < -5000.00) {
 
                     System.out.println("Invalid search amount.");
                     return;
@@ -230,15 +192,14 @@ public class ReportsMenu {
         } catch (Exception error) {
 
             System.out.println(
-                    "Enter dates as yyyy-MM-dd and amount as a number."
+                    "Invalid date or amount. Please try again."
             );
             return;
         }
 
-        // Checks that the start date is not after the end date
+        // Check that the start date comes before the end date
         if (startDate != null && endDate != null &&
-                convertDateToNumber(startDate) >
-                        convertDateToNumber(endDate)) {
+                startDate.isAfter(endDate)) {
 
             System.out.println(
                     "Start date cannot be after end date."
@@ -247,33 +208,32 @@ public class ReportsMenu {
         }
 
         ArrayList<Transaction> matchingTransactions =
-                new ArrayList<Transaction>();
+                new ArrayList<>();
 
         ArrayList<Transaction> allTransactions =
                 TransactionRecords.getAllTransactions();
 
-        // Check each transaction against the search filters
+        // Checks each transaction against the search filters
         for (Transaction currentTransaction : allTransactions) {
 
-            LocalDate transactionDate = currentTransaction.getDate();
+            LocalDate transactionDate =
+                    currentTransaction.getDate();
 
-            // Check the start date
+            // Checks the start date
             if (startDate != null &&
-                    convertDateToNumber(transactionDate) <
-                            convertDateToNumber(startDate)) {
+                    transactionDate.isBefore(startDate)) {
 
                 continue;
             }
 
-            // Checks the end date
+            // Check end date
             if (endDate != null &&
-                    convertDateToNumber(transactionDate) >
-                            convertDateToNumber(endDate)) {
+                    transactionDate.isAfter(endDate)) {
 
                 continue;
             }
 
-            // Checks the description
+            // Check description
             String transactionDescription =
                     currentTransaction.getDescription().toLowerCase();
 
@@ -283,35 +243,30 @@ public class ReportsMenu {
                 continue;
             }
 
-            // Checks the vendor
-            String transactionVendor =
-                    currentTransaction.getVendor().toLowerCase();
+            // Check customer
+            String transactionCustomer = currentTransaction.getCustomer().toLowerCase();
 
-            if (!vendorToSearch.isEmpty() &&
-                    transactionVendor.indexOf(vendorToSearch) == -1) {
-
+            if (!customerToSearch.isEmpty() && transactionCustomer.indexOf(customerToSearch) == -1) {
                 continue;
             }
 
-            // Checks the amount
-            if (searchByAmount &&
-                    currentTransaction.getAmount() != amountToSearch) {
+            // Check vendor
+            String transactionVendor = currentTransaction.getVendor().toLowerCase();
 
+            if (!vendorToSearch.isEmpty() && transactionVendor.indexOf(vendorToSearch) == -1) {
                 continue;
             }
 
-            // Add a transaction if it matches all selected filters
+            // Check amount only if the user entered one
+            if (!amountInput.isEmpty() && currentTransaction.getAmount() != amountToSearch) {
+                continue;
+            }
+
+            // Add the transaction if it matches the filters
             matchingTransactions.add(currentTransaction);
         }
 
+        // Display matching transactions
         TransactionRecords.displayTransactions(matchingTransactions);
-    }
-
-    // Convert a date into a number for easier comparison
-    public static int convertDateToNumber(LocalDate transactionDate) {
-
-        return transactionDate.getYear() * 10000 +
-                transactionDate.getMonthValue() * 100 +
-                transactionDate.getDayOfMonth();
     }
 }

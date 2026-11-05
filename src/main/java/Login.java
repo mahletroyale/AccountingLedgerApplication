@@ -17,13 +17,11 @@ public class Login {
 
             System.out.println("\nLogin successful!");
             System.out.println("Welcome back, Chef Mahisha!");
-
             return true;
 
         } else {
 
             System.out.println("Incorrect password. Access denied.");
-
             return false;
         }
     }

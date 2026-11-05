@@ -17,16 +17,13 @@ public class LedgerMenu {
             System.out.println("S) Financial Summary");
             System.out.println("R) Reports");
             System.out.println("H) Home");
-
             System.out.print("\nChoose an option: ");
             String userChoice = scanner.nextLine().trim().toUpperCase();
 
             switch (userChoice) {
 
                 case "A":
-                    TransactionRecords.displayTransactions(
-                            TransactionRecords.getAllTransactions()
-                    );
+                    TransactionRecords.displayTransactions(TransactionRecords.getAllTransactions());
                     break;
 
                 case "D":
@@ -55,15 +52,14 @@ public class LedgerMenu {
         }
     }
 
-    // Display only deposits or only payments
+
     public static void displayDepositsOrPayments(
             boolean showDeposits) {
 
         ArrayList<Transaction> matchingTransactions =
                 new ArrayList<>();
 
-        ArrayList<Transaction> allTransactions =
-                TransactionRecords.getAllTransactions();
+        ArrayList<Transaction> allTransactions = TransactionRecords.getAllTransactions();
 
         for (Transaction transaction : allTransactions) {
 
