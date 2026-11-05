@@ -55,8 +55,7 @@ public class TransactionEntry {
         }
 
         // Checks that the amount is within the allowed range
-        if (transactionAmount <= 0 ||
-                transactionAmount > 10000.00) {
+        if (transactionAmount <= 0 || transactionAmount > 10000.00) {
 
             System.out.println(
                     "Amount must be greater than zero and under 10,000."
@@ -98,9 +97,7 @@ public class TransactionEntry {
             return false;
         }
 
-        for (int characterIndex = 0;
-             characterIndex < userInput.length();
-             characterIndex++) {
+        for (int characterIndex = 0; characterIndex < userInput.length(); characterIndex++) {
 
             char currentCharacter = userInput.charAt(characterIndex);
 
@@ -136,9 +133,7 @@ public class TransactionEntry {
         int decimalPointCount = 0;
         int digitCount = 0;
 
-        for (int characterIndex = 0;
-             characterIndex < amountInput.length();
-             characterIndex++) {
+        for (int characterIndex = 0; characterIndex < amountInput.length(); characterIndex++) {
 
             char currentCharacter = amountInput.charAt(characterIndex);
 
