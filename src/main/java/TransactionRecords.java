@@ -11,7 +11,7 @@ public class TransactionRecords {
 
     private static final String FILE_NAME = "transactions.csv";
 
-    // Save a transaction to the CSV file
+    // Saves a transaction to the CSV file
     public static boolean saveTransaction(Transaction transaction) {
 
         try {
@@ -56,7 +56,7 @@ public class TransactionRecords {
 
             while ((transactionLine = transactionReader.readLine()) != null) {
 
-                // Skips any empty lines
+
                 if (transactionLine.trim().isEmpty()) {
                     continue;
                 }
@@ -99,17 +99,17 @@ public class TransactionRecords {
                     // Check for invalid transaction information
                     if (transactionDescription.isEmpty() ||
                             transactionVendor.isEmpty() ||
-                            transactionAmount > 999999999.99 ||
-                            transactionAmount < -999999999.99 ||
+                            transactionAmount > 10000.00 ||
+                            transactionAmount < -10000.00 ||
                             transactionAmount != transactionAmount) {
 
                         System.out.println(
-                                "Skipping invalid record: " + transactionLine
+                                "Invalid information: " + transactionLine
                         );
                         continue;
                     }
 
-                    // Create a Transaction object
+                    // Creates a Transaction object
                     Transaction savedTransaction = new Transaction(
                             transactionDate,
                             transactionTime,
@@ -118,7 +118,7 @@ public class TransactionRecords {
                             transactionAmount
                     );
 
-                    // Add the transaction to the ArrayList
+                    // Adds the transaction to the ArrayList
                     allTransactions.add(savedTransaction);
 
                 } catch (Exception error) {
@@ -142,7 +142,7 @@ public class TransactionRecords {
             );
         }
 
-        // Sort transactions from newest to oldest
+        // Sorts transactions from newest to oldest
         for (int currentIndex = 0;
              currentIndex < allTransactions.size();
              currentIndex++) {

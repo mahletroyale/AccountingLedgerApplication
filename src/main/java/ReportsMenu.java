@@ -218,8 +218,8 @@ public class ReportsMenu {
                 amountToSearch = Double.parseDouble(amountInput);
                 searchByAmount = true;
 
-                if (amountToSearch > 999999999.99 ||
-                        amountToSearch < -999999999.99 ||
+                if (amountToSearch > 10000.00 ||
+                        amountToSearch < -10000.00 ||
                         amountToSearch != amountToSearch) {
 
                     System.out.println("Invalid search amount.");
