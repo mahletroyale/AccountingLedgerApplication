@@ -143,9 +143,7 @@ public class TransactionRecords {
         }
 
         // Sorts transactions from newest to oldest
-        for (int currentIndex = 0;
-             currentIndex < allTransactions.size();
-             currentIndex++) {
+        for (int currentIndex = 0; currentIndex < allTransactions.size(); currentIndex++) {
 
             for (int comparisonIndex = currentIndex + 1;
                  comparisonIndex < allTransactions.size();
@@ -170,27 +168,19 @@ public class TransactionRecords {
 
                 // Convert times into numbers for comparison
                 int currentTransactionTime =
-                        currentTransaction.getTime().getHour() * 10000 +
-                                currentTransaction.getTime().getMinute() * 100 +
-                                currentTransaction.getTime().getSecond();
+                        currentTransaction.getTime().getHour() * 10000 + currentTransaction.getTime().getMinute() * 100 + currentTransaction.getTime().getSecond();
 
                 int comparisonTransactionTime =
-                        comparisonTransaction.getTime().getHour() * 10000 +
-                                comparisonTransaction.getTime().getMinute() * 100 +
-                                comparisonTransaction.getTime().getSecond();
+                        comparisonTransaction.getTime().getHour() * 10000 + comparisonTransaction.getTime().getMinute() * 100 + comparisonTransaction.getTime().getSecond();
 
                 // Swap positions when the comparison transaction is newer
-                if (comparisonTransactionDate > currentTransactionDate ||
-                        (comparisonTransactionDate == currentTransactionDate &&
-                                comparisonTransactionTime > currentTransactionTime)) {
+                if (comparisonTransactionDate > currentTransactionDate || (comparisonTransactionDate == currentTransactionDate && comparisonTransactionTime > currentTransactionTime)) {
 
                     allTransactions.set(
                             currentIndex, comparisonTransaction
                     );
 
-                    allTransactions.set(
-                            comparisonIndex, currentTransaction
-                    );
+                    allTransactions.set(comparisonIndex, currentTransaction);
                 }
             }
         }
@@ -199,8 +189,7 @@ public class TransactionRecords {
     }
 
     // Display transactions in a formatted table
-    public static void displayTransactions(
-            ArrayList<Transaction> transactionsToDisplay) {
+    public static void displayTransactions( ArrayList<Transaction> transactionsToDisplay) {
 
         if (transactionsToDisplay.isEmpty()) {
             System.out.println("\nNo transactions found.");
@@ -215,7 +204,6 @@ public class TransactionRecords {
                 "VENDOR",
                 "AMOUNT"
         );
-
 
         // Display each transaction
         for (Transaction currentTransaction : transactionsToDisplay) {
