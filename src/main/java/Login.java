@@ -1,14 +1,12 @@
 
 
 
-
-
 import java.util.Scanner;
 
 public class Login {
 
     public static boolean checkPassword(Scanner scanner) {
-
+        ChefArt.displayChef();
         String correctUsername = "mahleta";
         String correctPassword = "1234*";
         boolean isLoggedIn = false;

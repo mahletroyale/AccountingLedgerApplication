@@ -8,12 +8,6 @@ public class LedgerHome {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("====================================");
-        System.out.println("          MAHISHA MADE IT  👩🏽‍🍳         ");
-        System.out.println("       You Crave It. I Make It.    ");
-        System.out.println("====================================");
-
-
         if (!Login.checkPassword(scanner)) {
             scanner.close();
             return;
