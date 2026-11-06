@@ -97,8 +97,23 @@ I also added input checks. Descriptions and names must contain letters, numbers,
 
 One of the trickier parts was getting the file location right. The name `Transaction.csv` looks almost identical to the other CSV files in the project, but the folder and capitalization matter. Keeping the file path in one constant in `TransactionRecords` makes that easier to manage.
 
-## Scope
+## Challenges, Risks, and Lessons Learned
+Runtime and efficiency
 
-This is a **learning project**, not production accounting software. It runs locally, uses a plain-text CSV file, and has a hardcoded password for demonstration purposes. It does not provide secure authentication or replace bookkeeping software.
+One area I would improve is how transactions are sorted. I used nested for loops to organize transactions from newest to oldest. While this works for a small number of records, the sorting algorithm has a time complexity of O(n²) because each transaction is compared with multiple other transactions. As the number of transactions grows, sorting becomes less efficient.
 
-The goal was to bring together Java classes, methods, loops, `ArrayList`, file reading and writing, input validation, and date handling in one project I could actually explain and use.
+Reading the CSV file and searching through transactions both take O(n) time because the program goes through the records one at a time. Since this is a small business application, that approach works for now. However, I could make the sorting process more efficient by using Java's built-in sorting methods, which can achieve O(n log n) time complexity. I could also avoid repeatedly reading the entire CSV file whenever the user selects a different menu option.
+
+Data storage and formatting
+
+Another challenge was managing the CSV file. At one point, transactions were being saved to a different file than the one I was viewing in IntelliJ. I learned how important file paths and consistent file names are when working with file input and output.
+
+I also noticed that using N/A for missing customer or vendor information doesn't look the prettiest in the transaction table. Although it makes it clear that a field doesn't apply, the repeated N/A values make the ledger look somewhat cluttered. In the future, I would consider displaying a dash (-) instead while keeping the underlying data organized. I would also like to improve the table's spacing and alignment to make it easier to read.
+
+Risks and future improvements
+
+Because transactions are stored in a CSV file, records could be accidentally edited, deleted, or formatted incorrectly. The application also uses a hardcoded password, which is fine for demonstrating the project but wouldn't be secure for an actual business. If I continued developing this application, I would explore stronger authentication, better error handling, and a database for storing transactions more reliably.
+
+What I learned
+
+My biggest takeaway is that code can be functional without necessarily being the most efficient or user-friendly solution. This project helped me become more comfortable working with classes, methods, ArrayLists, loops, conditionals, and file handling. It also pushed me to think beyond just meeting the project requirements. I started considering how someone else would interact with the application, what could go wrong, and how I could make the overall experience better.
