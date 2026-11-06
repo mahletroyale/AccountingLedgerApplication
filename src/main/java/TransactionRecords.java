@@ -75,23 +75,17 @@ public class TransactionRecords {
                 try {
 
                     // Converts CSV text into the correct data types
-                    LocalDate transactionDate =
-                            LocalDate.parse(transactionDetails[0].trim());
+                    LocalDate transactionDate = LocalDate.parse(transactionDetails[0].trim());
 
-                    LocalTime transactionTime =
-                            LocalTime.parse(transactionDetails[1].trim());
+                    LocalTime transactionTime = LocalTime.parse(transactionDetails[1].trim());
 
-                    String transactionDescription =
-                            transactionDetails[2].trim();
+                    String transactionDescription = transactionDetails[2].trim();
 
-                    String transactionCustomer =
-                            transactionDetails[3].trim();
+                    String transactionCustomer = transactionDetails[3].trim();
 
-                    String transactionVendor =
-                            transactionDetails[4].trim();
+                    String transactionVendor = transactionDetails[4].trim();
 
-                    double transactionAmount =
-                            Double.parseDouble(transactionDetails[5].trim());
+                    double transactionAmount = Double.parseDouble(transactionDetails[5].trim());
 
                     // Check for invalid transaction information
                     if (transactionDescription.isEmpty() || (transactionAmount > 0 && transactionCustomer.isEmpty()) ||
