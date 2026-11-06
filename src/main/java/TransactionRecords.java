@@ -97,8 +97,7 @@ public class TransactionRecords {
                             Double.parseDouble(transactionDetails[5].trim());
 
                     // Check for invalid transaction information
-                    if (transactionDescription.isEmpty() ||
-                            (transactionAmount > 0 && transactionCustomer.isEmpty()) ||
+                    if (transactionDescription.isEmpty() || (transactionAmount > 0 && transactionCustomer.isEmpty()) ||
                             (transactionAmount < 0 && transactionVendor.isEmpty()) ||
                             transactionAmount == 0 ||
                             transactionAmount > 5000.00 ||

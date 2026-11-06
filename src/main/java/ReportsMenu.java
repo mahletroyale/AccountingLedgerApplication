@@ -30,10 +30,7 @@ public class ReportsMenu {
 
                 case "1":
                     // Current month through today
-                    displayDateReport(
-                            currentDate.withDayOfMonth(1),
-                            currentDate
-                    );
+                    displayDateReport(currentDate.withDayOfMonth(1), currentDate);
                     break;
 
                 case "2":
@@ -41,10 +38,7 @@ public class ReportsMenu {
                     LocalDate previousMonth = currentDate.minusMonths(1);
 
                     displayDateReport(
-                            previousMonth.withDayOfMonth(1),
-                            previousMonth.withDayOfMonth(
-                                    previousMonth.lengthOfMonth()
-                            )
+                            previousMonth.withDayOfMonth(1), previousMonth.withDayOfMonth(previousMonth.lengthOfMonth())
                     );
                     break;
 
@@ -210,26 +204,20 @@ public class ReportsMenu {
         ArrayList<Transaction> matchingTransactions =
                 new ArrayList<>();
 
-        ArrayList<Transaction> allTransactions =
-                TransactionRecords.getAllTransactions();
+        ArrayList<Transaction> allTransactions = TransactionRecords.getAllTransactions();
 
         // Checks each transaction against the search filters
         for (Transaction currentTransaction : allTransactions) {
 
-            LocalDate transactionDate =
-                    currentTransaction.getDate();
+            LocalDate transactionDate = currentTransaction.getDate();
 
             // Checks the start date
-            if (startDate != null &&
-                    transactionDate.isBefore(startDate)) {
-
+            if (startDate != null && transactionDate.isBefore(startDate)) {
                 continue;
             }
 
             // Check end date
-            if (endDate != null &&
-                    transactionDate.isAfter(endDate)) {
-
+            if (endDate != null && transactionDate.isAfter(endDate)) {
                 continue;
             }
 
@@ -237,9 +225,7 @@ public class ReportsMenu {
             String transactionDescription =
                     currentTransaction.getDescription().toLowerCase();
 
-            if (!descriptionToSearch.isEmpty() &&
-                    transactionDescription.indexOf(descriptionToSearch) == -1) {
-
+            if (!descriptionToSearch.isEmpty() && transactionDescription.indexOf(descriptionToSearch) == -1) {
                 continue;
             }
 

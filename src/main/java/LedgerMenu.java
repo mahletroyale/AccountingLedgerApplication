@@ -7,7 +7,6 @@ public class LedgerMenu {
     public static void open(Scanner scanner) {
 
         boolean isLedgerOpen = true;
-
         while (isLedgerOpen) {
 
             System.out.println("\n KITCHEN LEDGER \uD83D\uDD2A");
@@ -62,7 +61,6 @@ public class LedgerMenu {
         ArrayList<Transaction> allTransactions = TransactionRecords.getAllTransactions();
 
         for (Transaction transaction : allTransactions) {
-
             if (showDeposits && transaction.getAmount() > 0) {
                 matchingTransactions.add(transaction);
             }
