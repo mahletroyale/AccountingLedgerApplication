@@ -13,11 +13,9 @@ public class TransactionRecords {
 
         try {
 
-            FileWriter transactionFileWriter =
-                    new FileWriter(FILE_NAME, true);
+            FileWriter transactionFileWriter = new FileWriter(FILE_NAME, true);
 
-            BufferedWriter transactionWriter =
-                    new BufferedWriter(transactionFileWriter);
+            BufferedWriter transactionWriter = new BufferedWriter(transactionFileWriter);
 
             transactionWriter.write(transaction.toCsv());
             transactionWriter.newLine();
@@ -38,8 +36,7 @@ public class TransactionRecords {
     // Reads all transactions from the CSV file
     public static ArrayList<Transaction> getAllTransactions() {
 
-        ArrayList<Transaction> allTransactions =
-                new ArrayList<Transaction>();
+        ArrayList<Transaction> allTransactions = new ArrayList<Transaction>();
 
         try {
 

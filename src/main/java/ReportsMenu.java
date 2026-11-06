@@ -216,7 +216,7 @@ public class ReportsMenu {
                 continue;
             }
 
-            // Check end date
+            // Checks the end date
             if (endDate != null && transactionDate.isAfter(endDate)) {
                 continue;
             }
@@ -229,7 +229,7 @@ public class ReportsMenu {
                 continue;
             }
 
-            // Check customer
+
             String transactionCustomer = currentTransaction.getCustomer().toLowerCase();
 
             if (!customerToSearch.isEmpty() && transactionCustomer.indexOf(customerToSearch) == -1) {
@@ -252,7 +252,6 @@ public class ReportsMenu {
             matchingTransactions.add(currentTransaction);
         }
 
-        // Display matching transactions
         TransactionRecords.displayTransactions(matchingTransactions);
     }
 }
