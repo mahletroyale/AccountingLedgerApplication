@@ -81,15 +81,15 @@ All of the main application classes are in `src/main/java/`.
 
 | Class | Responsibility |
 | --- | --- |
-| `LedgerHome` | Starts the app and handles the main menu. |
-| `Login` | Checks the demonstration password before opening the ledger. |
-| `ChefArt` | Creates and displays a binary chef illustration using a String array and an enhanced for loop. |
-| `Transaction` | Holds one transaction's date, time, description, customer, vendor, and amount. |
-| `TransactionEntry` | Collects and checks user input, then creates a transaction. |
-| `TransactionRecords` | Saves to CSV, reads records back, sorts them, and prints the ledger table. |
-| `LedgerMenu` | Handles the ledger's viewing and filtering options. |
-| `FinancialSummary` | Calculates total food sales, expenses, and net balance. |
-| `ReportsMenu` | Handles date-based reports and transaction searches. |
+| LedgerHome | Starts the app and handles the main menu. |
+| Login | Checks the demonstration password before opening the ledger. |
+| ChefArt | Creates and displays a binary chef illustration using a String array and an enhanced for loop. |
+| Transaction | Holds one transaction's date, time, description, customer, vendor, and amount. |
+| TransactionEntry | Collects and checks user input, then creates a transaction. |
+| TransactionRecords | Saves to CSV, reads records back, sorts them, and prints the ledger table. |
+| LedgerMenu | Handles the ledger's viewing and filtering options. |
+| FinancialSummary | Calculates total food sales, expenses, and net balance. |
+| ReportsMenu | Handles date-based reports and transaction searches. |
 
 ## A few decisions behind the project
 
@@ -99,7 +99,7 @@ I also added input checks. Descriptions and names must contain letters, numbers,
 
 One of the trickier parts was getting the file location right. The name `Transaction.csv` looks almost identical to the other CSV files in the project, but the folder and capitalization matter. Keeping the file path in one constant in `TransactionRecords` makes that easier to manage.
 
-## Challenges, Risks, and Lessons Learned
+## Lessons Learned
 
 Runtime and efficiency
 
