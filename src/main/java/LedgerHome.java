@@ -2,7 +2,6 @@
 
 
 import java.util.Scanner;
-
 public class LedgerHome {
 
     public static void main(String[] args) {
