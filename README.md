@@ -4,7 +4,7 @@
 
 A Java accounting ledger for my small catering business in the near future! I built this project around a food business because I wanted the transactions to feel like real day-to-day decisions: getting paid for a catering order, picking up ingredients, or buying takeout containers.
 
-It's a console application, so everything happens through a menu in the terminal. No database or extra setup is needed; transactions are kept in a CSV file.
+It's a console application, so everything happens through a menu in the terminal. Transactions are kept in a CSV file.
 
 ## What you can do
 
