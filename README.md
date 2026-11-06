@@ -81,7 +81,7 @@ All of the main application classes are in `src/main/java/`.
 
 | Class | Responsibility |
 | --- | --- |
-| `LedgerHome` | Starts the app and handles the main menu. |
+| LedgerHome | Starts the app and handles the main menu. |
 | `Login` | Checks the demonstration password before opening the ledger. |
 | `ChefArt` | Creates and displays a binary chef illustration using a String array and an enhanced for loop. |
 | `Transaction` | Holds one transaction's date, time, description, customer, vendor, and amount. |
